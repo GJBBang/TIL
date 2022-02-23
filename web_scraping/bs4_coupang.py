@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'}
 
-for i in range(1, 6):
+for i in range(1, 5):
     url = 'https://www.coupang.com/np/search?q=%EC%BB%B4%ED%93%A8%ED%84%B0&channel=user&component=&eventCategory=SRP&trcid=&traid=&sorter=scoreDesc&minPrice=&maxPrice=&priceRange=&filterType=&listSize=36&filter=&isPriceRange=false&brand=&offerCondition=&rating=0&page={}&rocketAll=false&searchIndexingToken=1=6&backgroundColor='.format(i)
     res = requests.get(url, headers=headers)
     res.raise_for_status() # 에러시 프로그램 종료
