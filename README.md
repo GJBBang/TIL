@@ -1,2 +1,6 @@
-# Todat I Learn
+# TIL
+
+커밋 : 날짜 + 내용
+
+
 
