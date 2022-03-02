@@ -10,7 +10,7 @@ writer = csv.writer(f)
 table_title = ['향수명', '등록일', '주요제품특징', '종류', '성별', '타입', '메인향', '네이버쇼핑url', '가격(최저가)', '이미지url', '리뷰내용', '리뷰등록일']
 writer.writerow(table_title)
 
-headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'}
+headers = {'User-Agent':'x'}
 url = 'https://search.shopping.naver.com/catalog/22856706427?query=%ED%96%A5%EC%88%98&NaPm=ct%3Dl00hcc2g%7Cci%3De4ed91390f6a9fe5390423398a47671c35c08310%7Ctr%3Dslsl%7Csn%3D95694%7Chk%3D824f8beb80620eb1c2aa31ed2efe1f5b0c34a93e'
 res = requests.get(url, headers=headers)
 res.raise_for_status()
