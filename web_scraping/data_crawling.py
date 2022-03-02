@@ -33,24 +33,25 @@ def save():
         df1.to_csv('output1.csv', encoding='utf-8-sig', mode='a', header=False)
 
 
-perfume_id = 578
-total_cnt = 160317
+perfume_id = 693
+total_cnt = 168395
 browser = webdriver.Chrome('./chromedriver.exe')
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'}
-for i in range(5, 6):
+for i in range(1, 950):
     url = 'https://search.shopping.naver.com/search/all?frm=NVSHMDL&origQuery=%ED%96%A5%EC%88%98&pagingIndex={}&pagingSize=40&productSet=model&query=%ED%96%A5%EC%88%98&sort=rel&timestamp=&viewType=list'.format(i)
 
     browser.get(url)
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, 'html.parser')
     sleep(2)
-    if i == 5:
-        j = 30
+    if i == 12:
+        j = 28
     else:
         j = 1
     while True:
         try:
             perfume_review_cnt = '/html/body/div/div/div[2]/div[2]/div[3]/div[1]/ul/div/div['+ str(j) +']/li/div[1]/div[2]/div[5]/a/em'
+            
             review_cnt = browser.find_element_by_xpath(perfume_review_cnt).text
             review_cnt = re.sub(',', '', review_cnt)
             pagination_cnt = int(np.ceil(int(review_cnt) / 20))
