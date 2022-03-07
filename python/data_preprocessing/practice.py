@@ -13,4 +13,5 @@ data = {
 }
 
 df = pd.DataFrame(data)
-print(type(df['이름'] + ' ' + df['학교']))
+school_name = df['학교'].unique()
+
