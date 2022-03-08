@@ -39,9 +39,9 @@ def get_recommend_perfume_list(df, perfume, top=30):
     sim_index = sim_index[sim_index != target_perfume_index]
 
     # df 생성
-    result = df.iloc[sim_index][:10]
+    result = df.iloc[sim_index].sort_values('total_survey', ascending=False)[:10]
     return result
 
-print(get_recommend_perfume_list(df, perfume='Power by 50 Cent'))
+print(get_recommend_perfume_list(df, perfume=df['perfume'][0]))
 
 print('종료 시간 : ', time.time() - start)
