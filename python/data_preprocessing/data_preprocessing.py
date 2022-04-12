@@ -11,41 +11,41 @@ as-is
 - 리스트 형태의 데이터가 문자열로 저장되어 있음 ex) "['brand1', 'brand2', ...]"
 - 컨텐츠 기반 필터링을 위해 리스트로 되어있는 특징 및 노트 데이터를 띄어쓰기로 구분된 문자열로 변환 필요
 '''
-# # 초기 데이터 df 객체 생성
-# df = pd.read_json('perfumes.json')
+# 초기 데이터 df 객체 생성
+df = pd.read_json('perfumes.json')
 
-# # accords, notes --> null 인 향수 제거
-# for i in df.index:
-#     if df['main_accords'][i] == 'null' or df['notes'][i] == 'null':
-#         df.drop(i, axis=0, inplace=True)
+# accords, notes --> null 인 향수 제거
+for i in df.index:
+    if df['main_accords'][i] == 'null' or df['notes'][i] == 'null':
+        df.drop(i, axis=0, inplace=True)
 
-# # 인덱스 초기화
-# df.reset_index(inplace=True, drop=True)
+# 인덱스 초기화
+df.reset_index(inplace=True, drop=True)
 
-# for i in df.index:
-#     df['notes'][i] = df['notes'][i].replace('null', 'None')
+for i in df.index:
+    df['notes'][i] = df['notes'][i].replace('null', 'None')
 
-# # 문자열로 되어있는 배열 문자열 제거 ex) "['brand1', 'brand2', ...]""['brand1', 'brand2', ...]" --> ['brand1', 'brand2', ...]
-# df['main_accords'] = df['main_accords'].apply(literal_eval)
-# df['notes'] = df['notes'].apply(literal_eval)
-# df['longevity'] = df['longevity'].apply(literal_eval)
-# df['sillage'] = df['sillage'].apply(literal_eval)
+# 문자열로 되어있는 배열 문자열 제거 ex) "['brand1', 'brand2', ...]""['brand1', 'brand2', ...]" --> ['brand1', 'brand2', ...]
+df['main_accords'] = df['main_accords'].apply(literal_eval)
+df['notes'] = df['notes'].apply(literal_eval)
+df['longevity'] = df['longevity'].apply(literal_eval)
+df['sillage'] = df['sillage'].apply(literal_eval)
 
-# # list 및 dict value --> 띄어쓰기로 구분된 문자열로 변환
-# for i in df.index:
-#     df['main_accords'][i] = ' '.join(df['main_accords'][i])
-#     if type(df['notes'][i]) == list:
-#         df['notes'][i] = ' '.join(df['notes'][i])
-#     elif type(df['notes'][i]) == dict:
-#         temp = ''
-#         for value in df['notes'][i].values():
-#             if type(value) == list:
-#                 temp += ' '.join(value)
-#                 temp += ' '
-#         if temp:
-#             df['notes'][i] = temp[:-1]
+# list 및 dict value --> 띄어쓰기로 구분된 문자열로 변환
+for i in df.index:
+    df['main_accords'][i] = ' '.join(df['main_accords'][i])
+    if type(df['notes'][i]) == list:
+        df['notes'][i] = ' '.join(df['notes'][i])
+    elif type(df['notes'][i]) == dict:
+        temp = ''
+        for value in df['notes'][i].values():
+            if type(value) == list:
+                temp += ' '.join(value)
+                temp += ' '
+        if temp:
+            df['notes'][i] = temp[:-1]
 
-# df.to_json('data_preprocessing1.json', orient='records')
+df.to_json('data_preprocessing1.json', orient='records')
 
 '''
 2차 정제 (DB에 저장하기 위한 데이터 정제)
@@ -57,60 +57,60 @@ as-is
 - sillage 컬럼 변경 필요
 '''
 
-# # 초기 데이터 객체 생성
-# df = pd.read_json('data_preprocessing1.json')
+# 초기 데이터 객체 생성
+df = pd.read_json('data_preprocessing1.json')
 
-# # 향수 id 컬럼 추가
-# df['id'] = [x for x in range(1, len(df) + 1)]
+# 향수 id 컬럼 추가
+df['id'] = [x for x in range(1, len(df) + 1)]
 
-# # total_survey 추가
-# total_survey = []
+# total_survey 추가
+total_survey = []
 
-# for i in range(len(df)):
-#     cnt = 0
-#     for longevity in df['longevity'][i]:
-#         cnt += int(longevity)
+for i in range(len(df)):
+    cnt = 0
+    for longevity in df['longevity'][i]:
+        cnt += int(longevity)
     
-#     for sillage in df['sillage'][i]:
-#         cnt += int(sillage)
-#     total_survey.append(cnt)
+    for sillage in df['sillage'][i]:
+        cnt += int(sillage)
+    total_survey.append(cnt)
 
-# df['total_survey'] = total_survey
+df['total_survey'] = total_survey
 
-# # longevity 컬럼 변경 
-# longevity_title = ['very weak', 'weak', 'moderate', 'long lasting', 'eternal']
+# longevity 컬럼 변경 
+longevity_title = ['very weak', 'weak', 'moderate', 'long lasting', 'eternal']
 
-# for i in range(len(df)):
-#     max_value = df['longevity'][i][0]
-#     max_idx = 0
-#     for j in range(1, 5):
-#         if max_value < df['longevity'][i][j]:
-#             max_value = df['longevity'][i][j]
-#             max_idx = j
-#     if max_value == 0:
-#         df['longevity'][i] = None
-#     else:
-#         df['longevity'][i] = longevity_title[max_idx]
+for i in range(len(df)):
+    max_value = df['longevity'][i][0]
+    max_idx = 0
+    for j in range(1, 5):
+        if max_value < df['longevity'][i][j]:
+            max_value = df['longevity'][i][j]
+            max_idx = j
+    if max_value == 0:
+        df['longevity'][i] = None
+    else:
+        df['longevity'][i] = longevity_title[max_idx]
 
-# # sillage 컬럼 변경
-# sillage_title = ['intimate', 'moderate', 'strong', 'enormous']
+# sillage 컬럼 변경
+sillage_title = ['intimate', 'moderate', 'strong', 'enormous']
 
-# for i in range(len(df)):
-#     max_value = df['sillage'][i][0]
-#     max_idx = 0
-#     for j in range(1, 4):
-#         if max_value < df['sillage'][i][j]:
-#             max_value = df['sillage'][i][j]
-#             max_idx = j
-#     if max_value == 0:
-#         df['sillage'][i] = None
-#     else:
-#         df['sillage'][i] = sillage_title[max_idx]
+for i in range(len(df)):
+    max_value = df['sillage'][i][0]
+    max_idx = 0
+    for j in range(1, 4):
+        if max_value < df['sillage'][i][j]:
+            max_value = df['sillage'][i][j]
+            max_idx = j
+    if max_value == 0:
+        df['sillage'][i] = None
+    else:
+        df['sillage'][i] = sillage_title[max_idx]
 
-# # 컬럼 순서 변경
-# df = df[['id', 'perfume', 'brand', 'image', 'launch_year', 'main_accords', 'notes', 'longevity', 'sillage', 'total_survey']]
+# 컬럼 순서 변경
+df = df[['id', 'perfume', 'brand', 'image', 'launch_year', 'main_accords', 'notes', 'longevity', 'sillage', 'total_survey']]
 
-# df.to_json('data_preprocessing2.json', orient='records')
+df.to_json('data_preprocessing2.json', orient='records')
 
 '''
 3차 정제 (DB에 저장하기 위한 데이터 추가 작업)
