@@ -3,6 +3,8 @@ sys.stdin = open("input.txt")
 
 N = input()
 length = len(N)
+N = int(N)
+
 visited = [0] * 10
 result = 9876543210
 number = ["0"] * length
@@ -10,15 +12,14 @@ number = ["0"] * length
 def check(k):
     global result
 
-    if k != 0 and abs(int(N) - result) < abs(int(N) - int("".join(number))):
+    if abs(N - result) <= abs(N - int("".join(number))):
         return
     
     if k == length:
         result = int("".join(number))
-        print(result)
         return
         
-    for i in range(9, -1, -1):
+    for i in range(10):
         if visited[i] == 0:
             number[k] = str(i)
             visited[i] = 1
@@ -26,5 +27,8 @@ def check(k):
             number[k] = "0"
             visited[i] = 0
 
-check(0)
+if N >= 9876543210:
+    print(9876543210)
+else:
+    check(0)
 print(result)
