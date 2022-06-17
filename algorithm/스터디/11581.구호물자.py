@@ -12,8 +12,6 @@ def check(x):
     for j in range(N):
         if arr[x][j]:
             check(j)
-            if result == "CYCLE":
-                break
     visited[x] = 0
 
 

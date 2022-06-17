@@ -6,10 +6,12 @@ N, Q = map(int, sys.stdin.readline().rstrip().split())
 a = list(map(int, sys.stdin.readline().rstrip().split()))
 a.sort()
 
-dp = [0] * (N + 1)
-for i in range(1, N + 1):
-    dp[i] = dp[i - 1] + a[i - 1]
+for i in range(1, N):
+    a[i] += a[i - 1]
 
 for _ in range(Q):
     L, R = map(int, sys.stdin.readline().rstrip().split())
-    print(dp[R] - dp[L - 1])
+    if L == 1:
+        print(a[R - 1])
+    else:
+        print(a[R - 1] - a[L - 2])

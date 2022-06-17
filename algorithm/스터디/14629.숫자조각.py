@@ -11,12 +11,10 @@ number = ["0"] * length
 
 def check(k):
     global result
-
-    if abs(N - result) <= abs(N - int("".join(number))):
-        return
     
     if k == length:
-        result = int("".join(number))
+        if abs(N - result) > abs(N - int("".join(number))):
+            result = int("".join(number))
         return
         
     for i in range(10):
