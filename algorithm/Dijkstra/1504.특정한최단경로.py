@@ -1,3 +1,14 @@
+'''
+4 6
+1 2 3
+2 3 3
+3 4 1
+1 3 5
+2 4 5
+1 4 4
+2 3
+'''
+
 import sys
 sys.stdin = open("input.txt")
 
