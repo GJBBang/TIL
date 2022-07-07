@@ -8,30 +8,39 @@ sys.stdin = open("input.txt")
 from collections import deque
 
 def insert_room(index, w):
-    for room in rooms:
-        if len(room) == index:
-            room.append(w)
+    global flag
+
+    for duck in ducks:
+        if len(duck) == index:
+            duck.append(w)
             return
+    
+    flag = True
     return
 
 
 sounds = input()
-duck = ["q", "u", "a", "c", "k"]
-rooms = deque()
+sound = ["q", "u", "a", "c", "k"]
+ducks = deque()
 
+flag = False
 for w in sounds:
     if w == "q":
-        if rooms and len(rooms[0]) == 5:
-            rooms.popleft()
-        rooms.append([w])
+        if ducks and len(ducks[0]) == 5:
+            ducks.popleft()
+        ducks.append([w])
     else:
-        index = duck.index(w)
+        index = sound.index(w)
         insert_room(index, w)
+        if flag:
+            break
 
 result = 0
-if rooms:
-    for room in rooms:
-        if len(room) == 5:
+if flag:
+    result = -1
+elif ducks:
+    for duck in ducks:
+        if len(duck) == 5:
             result += 1
         else:
             result = -1
