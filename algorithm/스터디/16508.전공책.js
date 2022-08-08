@@ -38,9 +38,7 @@ function solution(T, N, bookList) {
     if (result <= sumCost) return;
 
     if (k === T.length) {
-      if (result > sumCost) {
-        result = sumCost;
-      }
+      result = sumCost;
       return;
     }
 
@@ -59,9 +57,11 @@ function solution(T, N, bookList) {
         }
       }
     }
+    return;
   };
 
   findMinCost(0, 0);
+  console.log(result);
 }
 
 solution(inputT, inputN, inputBookList);
