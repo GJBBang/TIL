@@ -11,7 +11,10 @@ houseLocation = [5, 1, 7, 9]
 */
 
 function solution(N, houseLocation) {
-  
+  houseLocation.sort((a, b) => {
+    return a - b;
+  });
+  console.log(houseLocation[Math.floor((houseLocation.length - 1) / 2)]);
 }
 
 solution(inputN, inputHouseLocation);
