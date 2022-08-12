@@ -11,8 +11,8 @@ function solution(N) {
   let num = 1;
 
   while (num < N) {
-    cnt++;
     num += 6 * cnt;
+    cnt++;
   }
   console.log(cnt);
 }
