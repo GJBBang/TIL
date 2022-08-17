@@ -20,6 +20,8 @@ range = [ [ 3, 12 ] ]
 
 function solution(N, K, Q, M, KList, QList, range) {
   const students = new Array(N + 3).fill(0);
+  const result = new Array(N + 3).fill(1);
+  result[2] = 0;
 
   for (i = 0; i < K; i++) {
     students[KList[i]] = 9;
@@ -35,25 +37,19 @@ function solution(N, K, Q, M, KList, QList, range) {
       }
 
       students[QList[i] * n] = 1;
+      result[QList[i] * n] = 0;
       n++;
     }
   }
 
-  const result = new Array(N + 3).fill(0);
-  for (i = 3; i < N + 3; i++) {
-    if (!students[i] || students[i] === 9) {
-      result[i] = result[i - 1] + 1;
-    } else {
-      result[i] = result[i - 1];
-    }
+  for (i = 4; i < N + 3; i++) {
+    result[i] += result[i - 1];
   }
+  
+
   for (i = 0; i < M; i++) {
-    const [s, e] = range[i];
-    if (students[s] - students[s - 1] || students[i] === 9) {
-      console.log(result[e] - result[s] + 1);
-    } else {
-      console.log(result[e] - result[s]);
-    }
+    const [s, e] = inputRange[i];
+    console.log(result[e] - result[s - 1]);
   }
 }
 
