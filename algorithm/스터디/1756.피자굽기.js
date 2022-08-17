@@ -14,35 +14,19 @@ pizza = [3, 2, 5]
 */
 
 function solution(D, N, oven, pizza) {
-  if (D < N) return console.log(0);
+  for (i = 1; i < D; i++) {
+    oven[i] = Math.min(oven[i], oven[i - 1]);
+  }
 
-  let result = 0;
-  for (i = 0; i < N; i++) {
-    let flag = true;
-    for (j = 0; j < D; j++) {
-      if (j === 0 && oven[j] < pizza[i]) break;
-
-      if (oven[j] < pizza[i] && j - 1 >= 0) {
-        oven[j - 1] = 0;
-        result = j;
-        flag = false;
-        break;
-      }
-      
-      if (j === D - 1 && oven[j] >= pizza[i]) {
-        oven[j] = 0;
-        result = j + 1;
-        flag = false;
-        break;
-      }
-    }
-    if (flag) {
-      result = 0;
-      break;
+  let pizzaNum = 0;
+  for (i = D - 1; i >= 0; i--) {
+    if (oven[i] >= pizza[pizzaNum]) {
+      pizzaNum++;
+      if (pizzaNum === N) return console.log(i + 1);
     }
   }
 
-  console.log(result);
+  return console.log(0);
 }
 
 solution(inputD, inputN, inputOven, inputPizza);
