@@ -1,0 +1,29 @@
+const fs = require("fs");
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const input = fs.readFileSync(filePath).toString().split("\n");
+
+const [inputN, inputM] = input[0].split(" ").map(Number);
+const inputPrerequisite = [];
+for (i = 0; i < inputM; i++) {
+  const temp = input[i + 1].split(" ").map(Number);
+  inputPrerequisite.push(temp);
+}
+inputPrerequisite.sort((a, b) => a[0] + a[1] - (b[0] + b[1]));
+
+/**
+ * N, M = 3, 2
+ * prerequisite = [ [ 1, 2 ], [ 2, 3 ] ]
+ */
+
+function solution(N, M, prerequisite) {
+  const dp = new Array(N + 1).fill(1);
+
+  prerequisite.forEach((arr) => {
+    const [a, b] = arr;
+    if (dp[a] >= dp[b]) dp[b] = dp[a] + 1;
+  });
+
+  console.log(dp.slice(1, N + 1).join(" "));
+}
+
+solution(inputN, inputM, inputPrerequisite);
