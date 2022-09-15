@@ -4,7 +4,7 @@ const input = fs.readFileSync(filePath).toString().split("\n");
 
 const [inputL, inputN] = input[0].split(" ").map(Number);
 const inputWordList = [];
-for (i = 0; i < inputN; i++) {
+for (let i = 0; i < inputN; i++) {
 	inputWordList.push(input[i + 1]);
 }
 
@@ -32,8 +32,8 @@ function solution(L, N, wordList) {
 	};
 
 	const checkMagicSquare = (arr) => {
-		for (i = 0; i < L; i++) {
-			for (j = 0; j < L; j++) {
+		for (let i = 0; i < L; i++) {
+			for (let j = i + 1; j < L; j++) {
 				if (arr[i][j] !== arr[j][i]) return false;
 			}
 		}
